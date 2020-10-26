@@ -161,7 +161,7 @@ def order_view(request, table_id, order_id):
         except models.Table.DoesNotExist:
             return reverse(redirect('table'))
     return render(request, 'order.html',
-                  {'waiters': waiters, 'tables': tables, 'table_no': table_no})
+                  {'waiters': waiters, 'tables': tables, 'table_no': table_id})
 
 
 @login_required
