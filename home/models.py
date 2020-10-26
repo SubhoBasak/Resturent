@@ -82,6 +82,8 @@ class Order(models.Model):
 
     @property
     def cus_name(self):
+        if self.customer == None:
+            return 'Order Pending'
         return self.customer.name
 
 

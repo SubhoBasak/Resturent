@@ -160,6 +160,7 @@ def order_view(request, table_id, order_id):
             order.save()
         except models.Table.DoesNotExist:
             return reverse(redirect('table'))
+
     return render(request, 'order.html',
                   {'waiters': waiters, 'tables': tables, 'table_no': table_id})
 
@@ -167,6 +168,7 @@ def order_view(request, table_id, order_id):
 @login_required
 def table_view(request):
     tables = models.Table.objects.all()
+    models.Order.objects.filter(customer=None).delete()
     if 'table_id' in request.POST:
         if 'new_order' in request.POST:
             return redirect('/order/'+str(request.POST['table_id'])+'/0/')

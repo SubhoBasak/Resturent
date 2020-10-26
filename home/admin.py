@@ -34,7 +34,7 @@ class CustomerAdmin(admin.ModelAdmin):
 
 class OrderAdmin(admin.ModelAdmin):
     readonly_fields = ['customer', 'payment_method', 'table_no', 'peoples', 'total', 'waiter']
-    list_display = ['cus_name', 'date_time', 'total']
+    list_display = ['cus_name', 'table_no', 'date_time', 'total']
     inlines = [OrderItemsInline,]
     list_filter = ['date_time', 'table_no', 'peoples', 'total', 'waiter']
 
