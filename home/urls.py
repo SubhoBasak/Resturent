@@ -12,6 +12,9 @@ urlpatterns = [
     path('order/<int:table_id>/<int:order_id>/', views.order_view, name='order'),
     path('table/', views.table_view, name='table'),
 
+    # promo code details api url
+    path('promo_code/<str:code>/', views.PromoCodeView.as_view()),
+
     # customer details api url
     path('customer_details_phone/<str:phone>/', views.CustomerDetailsPhone.as_view()),
     path('customer_details_email/<str:email>/', views.CustomerDetailsEmail.as_view()),

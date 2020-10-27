@@ -144,6 +144,12 @@ class NonVegDinnerItems(ListAPIView):
     serializer_class = serializers.ItemSerializer
 
 
+class PromoCodeView(RetrieveAPIView):
+    lookup_field = 'code'
+    queryset = models.PromoCode.objects.all()
+    serializer_class = serializers.PromoCodeSerializer
+
+
 @login_required
 def order_view(request, table_id, order_id):
     waiters = models.Waiter.objects.all()

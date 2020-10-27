@@ -11,5 +11,11 @@ class ItemSerializer(serializers.ModelSerializer):
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Customer
-        fields = ['name', 'email']
+        fields = ['name', 'email', 'phone']
+
+
+class PromoCodeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.PromoCode
+        fields = ['code', 'discount']
 

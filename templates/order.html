@@ -60,13 +60,11 @@
               <div class="form-group pad">
                 <i class="fa fa-thumb-tack pr-2"></i>
                 <label for="exampleInputUsername1">Table No</label>
-                <input type="text" class="form-control table-number" id="tablenumber" list="browser_s" name="browser"
-                  placeholder="Table Number" value="{{table_no}}">
-                <datalist id="browser_s">
-                  {% for table in tables %}
-                    <option value="{{table.table_no}}">
-                  {% endfor %}
-                </datalist>
+                <select class="form-control" name="table_id" type="text">
+                      {% for table in tables %}
+                        <option>Table no {{table.table_no}}</option>
+                      {% endfor %}
+                  </select>
               </div>
               <div class="form-group pad">
                 <i class="fa fa-users pr-2"></i>
@@ -78,13 +76,11 @@
               <div class="form-group pad">
                 <i class="fa fa-user pr-2"></i>
                 <label for="exampleInputUsername1">Waiter Name</label>
-                <input list="browsers" name="browser" type="text" class="form-control" id="exampleInputEmail1"
-                  placeholder="Waiter">
-                <datalist id="browsers">
-                    {% for waiter in waiters %}
-                        <option value="{{waiter.name}}">
-                    {% endfor %}
-                </datalist>
+                  <select class="form-control" name="waiter_name" type="text">
+                      {% for waiter in waiters %}
+                        <option>{{waiter.name}}</option>
+                      {% endfor %}
+                  </select>
               </div>
             </div>
           </div>
