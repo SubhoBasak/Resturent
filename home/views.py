@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, HttpResponse
 from django.contrib.auth.views import login_required
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
@@ -66,8 +66,9 @@ def forgot_view(request):
         try:
             user = User.objects.get(email=request.POST['email'])
             send_mail('Reset password',
-                      'Reset your password here: http://127.0.0.1:8000/reset/'+str(user.id)+'/',
-                      'subhobasak22@gmail.com', [user.email,])
+                      'Reset your password here: http://127.0.0.1:8000/reset/' +
+                      str(user.id)+'/',
+                      'subhobasak22@gmail.com', [user.email, ])
         except User.DoesNotExist:
             status = 1
     return render(request, 'forgot.html', {'status': status})
@@ -231,7 +232,8 @@ def usage_freq_view(request, o, t):
                 continue
             num_val.append(tmp.name)
     elif o == 2:
-        values = models.OrderItems.objects.filter(order__in=orders).values('product')
+        values = models.OrderItems.objects.filter(
+            order__in=orders).values('product')
         num_val = []
         for item in values:
             tmp = list(item.values())[0]
@@ -250,3 +252,8 @@ def usage_freq_view(request, o, t):
         else:
             values[v] = 1
     return JsonResponse(values)
+
+
+def testView(request):
+    print(request.POST)
+    return HttpResponse("test")

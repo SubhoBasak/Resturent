@@ -80,11 +80,19 @@ WSGI_APPLICATION = 'Resturent.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'resturent',
+    #     'USER': 'subhobasak',
+    #     'PASSWORD': 'raspberry',
+    #     'HOST': 'localhost',
+    #     'PORT': 3306,
+    # }
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'resturent',
-        'USER': 'subhobasak',
-        'PASSWORD': 'raspberry',
+        'NAME': 'resturant',
+        'USER': 'root',
+        'PASSWORD': 'ashis@2000',
         'HOST': 'localhost',
         'PORT': 3306,
     }
@@ -129,7 +137,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 
