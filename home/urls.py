@@ -29,5 +29,8 @@ urlpatterns = [
     path('non_veg_breakfast/', views.NonVegBreakfastItems.as_view()),
     path('non_veg_meal/', views.NonVegMealItems.as_view()),
     path('non_veg_snacks/', views.NonVegSnacksItems.as_view()),
-    path('non_veg_dinner/', views.NonVegDinnerItems.as_view())
+    path('non_veg_dinner/', views.NonVegDinnerItems.as_view()),
+
+    # data analysis api url
+    path('freq_data/<int:o>/<int:t>/', views.usage_freq_view),
 ]

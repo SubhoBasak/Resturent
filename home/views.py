@@ -3,9 +3,12 @@ from django.contrib.auth.views import login_required
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
+from django.http import JsonResponse
+from django.utils import timezone
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from . import models
 from . import serializers
+import json
 
 
 def handler404(request, *args, **argv):
@@ -189,3 +192,61 @@ def table_view(request):
                 pass
             return redirect(reverse('table'))
     return render(request, 'table.html', {'tables': tables})
+
+
+def usage_freq_view(request, o, t):
+    if t == 0:
+        limit = timezone.now()-timezone.timedelta(days=1)
+    elif t == 1:
+        limit = timezone.now()-timezone.timedelta(days=7)
+    elif t == 2:
+        limit = timezone.now()-timezone.timedelta(days=30)
+    else:
+        limit = timezone.now()-timezone.timedelta(days=365)
+    orders = models.Order.objects.filter(date_time__gte=limit)
+    if o == 0:
+        values = orders.values('table_no')
+        num_val = []
+        for item in values:
+            tmp = list(item.values())[0]
+            if tmp == None:
+                continue
+            try:
+                tmp = int(tmp)
+                tmp = models.Table.objects.get(id=tmp)
+            except Exception as e:
+                continue
+            num_val.append('Table no '+str(tmp.table_no))
+    elif o == 1:
+        values = orders.values('waiter')
+        num_val = []
+        for item in values:
+            tmp = list(item.values())[0]
+            if tmp == None:
+                continue
+            try:
+                tmp = int(tmp)
+                tmp = models.Waiter.objects.get(id=tmp)
+            except Exception as e:
+                continue
+            num_val.append(tmp.name)
+    elif o == 2:
+        values = models.OrderItems.objects.filter(order__in=orders).values('product')
+        num_val = []
+        for item in values:
+            tmp = list(item.values())[0]
+            if tmp == None:
+                continue
+            try:
+                tmp = int(tmp)
+                tmp = models.Product.objects.get(id=tmp)
+            except Exception as e:
+                continue
+            num_val.append(tmp.name)
+    values = {}
+    for v in num_val:
+        if v in values.keys():
+            values[v] += 1
+        else:
+            values[v] = 1
+    return JsonResponse(values)

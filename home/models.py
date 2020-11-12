@@ -93,7 +93,13 @@ class OrderItems(models.Model):
     price = models.FloatField(default=0.0)
     quantity = models.IntegerField(default=1)
 
+    def __str__(self):
+        return self.product.name
+
 
 class PromoCode(models.Model):
     code = models.CharField(max_length=8, default='')
     discount = models.IntegerField(verbose_name='Discount (%)', default=0)
+
+    def __str__(self):
+        return self.code

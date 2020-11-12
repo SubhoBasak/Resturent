@@ -5,13 +5,13 @@ from . import models
 class OrderItemsInline(admin.TabularInline):
     model = models.OrderItems
     extra = 0
-    readonly_fields = ['product', 'price', 'quantity',]
+    # readonly_fields = ['product', 'price', 'quantity',]
 
     def has_delete_permission(self, request, obj=None):
         return False
 
-    def has_add_permission(self, request, obj):
-        return False
+    # def has_add_permission(self, request, obj):
+    #     return False
 
 
 class TableAdmin(admin.ModelAdmin):
@@ -33,16 +33,16 @@ class CustomerAdmin(admin.ModelAdmin):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    readonly_fields = ['customer', 'payment_method', 'table_no', 'peoples', 'total', 'waiter']
+    # readonly_fields = ['customer', 'payment_method', 'table_no', 'peoples', 'total', 'waiter']
     list_display = ['cus_name', 'table_no', 'date_time', 'total']
     inlines = [OrderItemsInline,]
     list_filter = ['date_time', 'table_no', 'peoples', 'total', 'waiter']
 
-    def has_delete_permission(self, request, obj=None):
-        return False
-
-    def has_add_permission(self, request):
-        return False
+    # def has_delete_permission(self, request, obj=None):
+    #     return False
+    #
+    # def has_add_permission(self, request):
+    #     return False
 
 
 class WaiterAdmin(admin.ModelAdmin):
