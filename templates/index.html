@@ -1,0 +1,430 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Resturant</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <link rel="stylesheet" href="{% static 'css/w3.css' %}">
+  <link href="{% static 'css/tailwind.min.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+
+<body>
+  <!--------------------------Navbar---------------------------------->
+
+  <nav class="navbar navbar-expand-md navbar-light bg-light nav-bar">
+    <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'index' %}">Resturant Name</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+      aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto ">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if not user.is_authenticated %} disabled {% endif %}"
+             href="{% url 'table' %}">Order Now</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if not user.is_authenticated %} disabled {% endif %}"
+             href="#">Analysis</a>
+        </li>        
+        <li class="nav-item">
+          <a class="nav-link " href="#">About Us</a>
+        </li>
+      </ul>
+      <div>
+        {% if user.is_authenticated %}
+          <a href="{% url 'logout' %}" class="btn btn-success">LOG OUT</a>
+          <input type="hidden" id="button" />
+        {% else %}
+          <button class="btn btn-outline-success my-2 my-sm-0 display-flex" type="button" id="button">Login Now
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
+          </button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  </nav>
+
+  <div class="popup">
+    <form action="{% url 'login' %}" method="POST">
+      <div class="login-box">
+        <div class="box">
+          <button class="close">X</button>
+        </div>
+        <img src="{% static 'images/avatar.png' %}">
+        <h1>SIGN IN</h1>
+        <!--  Username & Password   -->
+          {% csrf_token %}
+          <div class="textbox">
+            <i class="glyphicon glyphicon-user"></i>
+            <input type="text" name="email" placeholder="Email">
+          </div>
+          <div class="textbox">
+            <i class="glyphicon glyphicon-lock"></i>
+            <input type="password" name="password" placeholder="Password">
+          </div>
+          <!--LOGIN & SIGN UP-->
+          <div class="textbox1">
+            <a href="#">
+              <p id="error"><span>Login</span></p>
+            </a>
+          </div>
+<!--        <div class="reg" style="color:red;">New Member-->
+<!--          <a href="#">Sign Up ?</a>-->
+<!--        </div>-->
+      </div>
+    </form>
+  </div>
+
+  <!---------------------------------------Carousel--------------------------------------->
+  <div class="container-fluid main">
+    <div class="row">
+      <div class="col-md-6 left-col">
+        <div class="content">
+          <h4>
+            ABCD <br>
+            <span class="typed-text"></span><span class="cursor typing">&nbsp;</span>
+          </h4>
+          <P><span>Foods are the simles of our life.</span><br> In reality food makes us stronger and healtheir</P>
+        </div>
+        <img src="{% static 'images/art.png' %}">
+      </div>
+      <div class="col-md-6 right-col">
+        <div class="carousel-border">
+          <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel">
+            <ol class="carousel-indicators">
+              <li class="butn" data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+              <li class="butn" data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+              <li class="butn" data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="{% static 'images/banner.jpg' %}" class="d-block w-100">
+              </div>
+              <div class="carousel-item">
+                <img src="{% static 'images/banner.jpg' %}" class="d-block w-100">
+              </div>
+              <div class="carousel-item">
+                <img src="{% static 'images/banner.jpg' %}" class="d-block w-100">
+              </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="lg:w-1/4 md:w-1/2 w-full px-4">
+          <div class="controller">
+            <ul>
+              <li class="butn active">01</li>
+              <li class="butn">02</li>
+              <li class="butn">03</li>
+              <li class="butn">04</li>
+            </ul>
+          </div>
+        </div> -->
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+    <path fill="#f3f4f5" fill-opacity="1"
+      d="M0,224L60,234.7C120,245,240,267,360,272C480,277,600,267,720,245.3C840,224,960,192,1080,181.3C1200,171,1320,181,1380,186.7L1440,192L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z">
+    </path>
+  </svg>
+  <section class="text-gray-700 body-font relative">
+    <div class="container px-5 mx-auto">
+      <div class="bg-box">
+        <div class="flex flex-col text-center w-full">
+          <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900 contact">Contact Us</h1>
+          <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Whatever cardigan tote bag tumblr hexagon brooklyn
+            asymmetrical gentrify.</p>
+        </div>
+        <div class="p-2 w-full pt-8 mt-8 border-t border-gray-200 text-center mb-12">
+          <a class="text-indigo-500">official@email.com</a>
+        </div>
+        <div class="lg:w-1/2 md:w-2/3 mx-auto">
+          <div class="flex flex-wrap -m-2">
+            <div class="p-2 w-1/2">
+              <input
+                class="w-full  rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2"
+                type="text" placeholder="Name" type="text">
+            </div>
+            <div class="p-2 w-1/2">
+              <input
+                class="w-full  rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2"
+                type="email" placeholder="Email" type="email">
+            </div>
+            <div class="p-2 w-full">
+              <textarea
+                class="w-full  rounded border border-gray-400 focus:outline-none h-48 focus:border-indigo-500 text-base px-4 py-2 resize-none block"
+                placeholder="Message"></textarea>
+            </div>
+            <div class="p-2 w-full">
+              <button
+                class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+                data-toggle="tooltip" data-placement="left" title="Click To Send Massage"
+                onclick="alert('Details Saved')">Send Message</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+    <path fill="#f3f4f5" fill-opacity="1"
+      d="M0,96L48,128C96,160,192,224,288,250.7C384,277,480,267,576,245.3C672,224,768,192,864,176C960,160,1056,160,1152,170.7C1248,181,1344,203,1392,213.3L1440,224L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z">
+    </path>
+  </svg>
+
+
+  <section class="text-gray-700 body-font menu-bar">
+    <img src="{% static 'images/Table.png' %}" style="position: absolute; z-index: -1; opacity: 10%;">
+    <div class="container px-5 py-24 mx-auto">
+      <div class="text-center mb-20">
+        <h1 class="sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-4 contact">MENU LIST</h1>
+        <p class="text-base leading-relaxed bg xl:w-2/4 lg:w-3/4 mx-auto">Some Special Items Of Our Restaurant. Please
+          Try, It Will Definitely Impressed You.</p>
+      </div>
+      <div class="flex flex-wrap -m-4">
+        <div class="p-4 lg:w-1/4 sm:w-1/2 w-full">
+          <h2
+            class=" text-size font-medium title-font tracking-widest text-gray-900 mb-4 text-sm text-center sm:text-left">
+            BREAKFAST</h2>
+          <nav class="flex flex-col sm:items-start sm:text-left text-center items-center -mb-1">
+            <a class="mb-2">
+              <span class="bg-blue-100 text-blue-500 w-4 h-4 mr-2 rounded-full inline-flex items-center justify-center">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                  class="w-3 h-3" viewBox="0 0 24 24">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+              </span>First Item
+            </a>
+            <a class="mb-2">
+              <span class="bg-blue-100 text-blue-500 w-4 h-4 mr-2 rounded-full inline-flex items-center justify-center">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                  class="w-3 h-3" viewBox="0 0 24 24">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+              </span>Second Item
+            </a>
+            <a class="mb-2">
+              <span class="bg-blue-100 text-blue-500 w-4 h-4 mr-2 rounded-full inline-flex items-center justify-center">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                  class="w-3 h-3" viewBox="0 0 24 24">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+              </span>Third Item
+            </a>
+            <a class="mb-2">
+              <span class="bg-blue-100 text-blue-500 w-4 h-4 mr-2 rounded-full inline-flex items-center justify-center">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                  class="w-3 h-3" viewBox="0 0 24 24">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+              </span>Fourth Item
+            </a>
+            <a class="mb-2">
+              <span class="bg-blue-100 text-blue-500 w-4 h-4 mr-2 rounded-full inline-flex items-center justify-center">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                  class="w-3 h-3" viewBox="0 0 24 24">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+              </span>Fifth Item
+            </a>
+          </nav>
+        </div>
+        <div class="p-4 lg:w-1/4 sm:w-1/2 w-full">
+          <h2
+            class="text-size font-medium title-font tracking-widest text-gray-900 mb-4 text-sm text-center sm:text-left">
+            LUNCH</h2>
+          <nav class="flex flex-col sm:items-start sm:text-left text-center items-center -mb-1">
+            <a class="mb-2">
+              <span class="bg-blue-100 text-blue-500 w-4 h-4 mr-2 rounded-full inline-flex items-center justify-center">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                  class="w-3 h-3" viewBox="0 0 24 24">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+              </span>First Item
+            </a>
+            <a class="mb-2">
+              <span class="bg-blue-100 text-blue-500 w-4 h-4 mr-2 rounded-full inline-flex items-center justify-center">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                  class="w-3 h-3" viewBox="0 0 24 24">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+              </span>Second Item
+            </a>
+            <a class="mb-2">
+              <span class="bg-blue-100 text-blue-500 w-4 h-4 mr-2 rounded-full inline-flex items-center justify-center">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                  class="w-3 h-3" viewBox="0 0 24 24">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+              </span>Third Item
+            </a>
+            <a class="mb-2">
+              <span class="bg-blue-100 text-blue-500 w-4 h-4 mr-2 rounded-full inline-flex items-center justify-center">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                  class="w-3 h-3" viewBox="0 0 24 24">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+              </span>Fourth Item
+            </a>
+            <a class="mb-2">
+              <span class="bg-blue-100 text-blue-500 w-4 h-4 mr-2 rounded-full inline-flex items-center justify-center">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                  class="w-3 h-3" viewBox="0 0 24 24">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+              </span>Fifth Item
+            </a>
+          </nav>
+        </div>
+        <div class="p-4 lg:w-1/4 sm:w-1/2 w-full">
+          <h2
+            class=" text-size font-medium title-font tracking-widest text-gray-900 mb-4 text-sm text-center sm:text-left">
+            SNACKS</h2>
+          <nav class="flex flex-col sm:items-start sm:text-left text-center items-center -mb-1">
+            <a class="mb-2">
+              <span class="bg-blue-100 text-blue-500 w-4 h-4 mr-2 rounded-full inline-flex items-center justify-center">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                  class="w-3 h-3" viewBox="0 0 24 24">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+              </span>First Item
+            </a>
+            <a class="mb-2">
+              <span class="bg-blue-100 text-blue-500 w-4 h-4 mr-2 rounded-full inline-flex items-center justify-center">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                  class="w-3 h-3" viewBox="0 0 24 24">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+              </span>Second Item
+            </a>
+            <a class="mb-2">
+              <span class="bg-blue-100 text-blue-500 w-4 h-4 mr-2 rounded-full inline-flex items-center justify-center">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                  class="w-3 h-3" viewBox="0 0 24 24">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+              </span>Third Item
+            </a>
+            <a class="mb-2">
+              <span class="bg-blue-100 text-blue-500 w-4 h-4 mr-2 rounded-full inline-flex items-center justify-center">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                  class="w-3 h-3" viewBox="0 0 24 24">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+              </span>Fourth Item
+            </a>
+            <a class="mb-2">
+              <span class="bg-blue-100 text-blue-500 w-4 h-4 mr-2 rounded-full inline-flex items-center justify-center">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                  class="w-3 h-3" viewBox="0 0 24 24">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+              </span>Fifth Item
+            </a>
+          </nav>
+        </div>
+        <div class="p-4 lg:w-1/4 sm:w-1/2 w-full">
+          <h2
+            class=" text-size font-medium title-font tracking-widest text-gray-900 mb-4 text-sm text-center sm:text-left">
+            DINNER</h2>
+          <nav class="flex flex-col sm:items-start sm:text-left text-center items-center -mb-1">
+            <a class="mb-2">
+              <span class="bg-blue-100 text-blue-500 w-4 h-4 mr-2 rounded-full inline-flex items-center justify-center">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                  class="w-3 h-3" viewBox="0 0 24 24">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+              </span>First Item
+            </a>
+            <a class="mb-2">
+              <span class="bg-blue-100 text-blue-500 w-4 h-4 mr-2 rounded-full inline-flex items-center justify-center">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                  class="w-3 h-3" viewBox="0 0 24 24">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+              </span>Second Item
+            </a>
+            <a class="mb-2">
+              <span class="bg-blue-100 text-blue-500 w-4 h-4 mr-2 rounded-full inline-flex items-center justify-center">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                  class="w-3 h-3" viewBox="0 0 24 24">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+              </span>Third Item
+            </a>
+            <a class="mb-2">
+              <span class="bg-blue-100 text-blue-500 w-4 h-4 mr-2 rounded-full inline-flex items-center justify-center">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                  class="w-3 h-3" viewBox="0 0 24 24">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+              </span>Fourth Item
+            </a>
+            <a class="mb-2">
+              <span class="bg-blue-100 text-blue-500 w-4 h-4 mr-2 rounded-full inline-flex items-center justify-center">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                  class="w-3 h-3" viewBox="0 0 24 24">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+              </span>Fifth Item
+            </a>
+          </nav>
+        </div>
+      </div>
+<!--      <a href="{% url 'table' %}"-->
+<!--        class="btn btn-primary flex mx-auto mt-16 text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg">-->
+<!--        Order Now-->
+<!--      </a>-->
+    </div>
+  </section>
+
+
+  <footer class="text-gray-700 body-font nav-bar2">
+    <div class="container px-5 mx-auto flex items-center sm:flex-row flex-col">
+      <a class="navbar-brand" href="#">Resturant Name</a>
+      <span
+        class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4">
+        <p class="text-sm text-gray-500">© 2020 ABCD
+          Resturant —
+          <a href="#" class="text-gray-600 ml-1" rel="noopener noreferrer" target="_blank">@twitter-link</a>
+        </p>
+      </span>
+    </div>
+  </footer>
+
+  <!-- Auto countable number -->
+
+
+
+  <script src="{% static 'js/jquery-3.3.1.slim.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/home.js' %}"></script>
+</body>
+
+</html>

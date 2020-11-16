@@ -26,8 +26,8 @@ const getUser = () => {
     no_of_customer: userDetails[4].value,
     waiter: userDetails[5].value,
   };
-  // console.log(details);
-  // post('',details)
+//   console.log(details);
+   API.post(window.location.pathname.slice(1,), details)
 };
 
 // ADD to cart

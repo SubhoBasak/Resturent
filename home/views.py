@@ -52,7 +52,7 @@ def login_view(request):
                 status = 1
         except User.DoesNotExist:
             status = 2
-    return render(request, 'login.html', {'status': status})
+    return redirect(reverse('index'))
 
 
 def logout_view(request):
@@ -91,9 +91,8 @@ def reset_view(request, uid):
     return render(request, 'reset.html', {'status': status})
 
 
-@login_required
 def index_view(request):
-    return render(request, 'order.html')
+    return render(request, 'index.html')
 
 
 class CustomerDetailsPhone(RetrieveAPIView):
@@ -156,8 +155,23 @@ class PromoCodeView(RetrieveAPIView):
 
 @login_required
 def order_view(request, table_id, order_id):
+    print(request.POST)
     waiters = models.Waiter.objects.all()
     tables = models.Table.objects.filter(fill=0)
+
+    if request.method == 'POST' and 'data' in request.POST:
+        data = json.loads(request.POST['data'])
+        if 'email' in data and 'phone' in data and 'username' in data:
+            pass
+        else:
+            pass
+            # total = 0
+            # for item in :
+            #     item_name = item['itemName']
+            #     item_qnty = item['itemQuantity']
+            #     item_price = item['itemPrice']
+            #     total += (item_qnty * item_price)
+
     if order_id > 0:
         try:
             order = models.Order.objects.get(id=order_id)
@@ -256,4 +270,4 @@ def usage_freq_view(request, o, t):
 
 def testView(request):
     print(request.POST)
-    return HttpResponse("test")
+    return redirect(reverse('index'))

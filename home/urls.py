@@ -7,7 +7,7 @@ handler500 = views.handler500
 urlpatterns = [
     path('', views.index_view, name='index'),
     path('login/', views.login_view, name='login'),
-    path('login/', views.logout_view, name='logout'),
+    path('logout/', views.logout_view, name='logout'),
     path('register/', views.register_view, name='register'),
     path('order/<int:table_id>/<int:order_id>/',
          views.order_view, name='order'),
