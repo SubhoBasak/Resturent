@@ -49,7 +49,7 @@
                                 <form method="POST">
                                     {% csrf_token %}
                                     <input type="hidden" name="table_id" value="{{table.id}}">
-                                    <input type="hidden" name="order_id" value="{{table.cur_order.id}}">
+                                    <input type="hidden" name="order_id" value="{{table.cur_ord}}">
                                     <button type="submit" name="edit" class="btn btn-warning btn-sm">Edit</button>
                                     <button type="submit" name="complete" class="btn btn-success btn-primary2 btn-sm">Complete</button>
                                 </form>

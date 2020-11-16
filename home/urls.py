@@ -13,6 +13,7 @@ urlpatterns = [
          views.order_view, name='order'),
     path('table/', views.table_view, name='table'),
     path('test', views.testView, name='test'),  # testing url for post
+    path('analysis/', views.analysis_view, name='analysis'),
 
     # promo code details api url
     path('promo_code/<str:code>/', views.PromoCodeView.as_view()),

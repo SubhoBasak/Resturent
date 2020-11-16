@@ -18,6 +18,7 @@ class TableAdmin(admin.ModelAdmin):
     list_display = ['table_no', 'seat', 'fill']
     list_filter = ['seat', 'fill']
     search_fields = ['table_no']
+    fields = ['table_no', 'seat', 'fill']
 
 
 class ProductAdmin(admin.ModelAdmin):

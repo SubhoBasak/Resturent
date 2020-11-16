@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.utils import timezone
+from django.core.mail import EmailMultiAlternatives
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from . import models
 from . import serializers
@@ -155,38 +156,95 @@ class PromoCodeView(RetrieveAPIView):
 
 @login_required
 def order_view(request, table_id, order_id):
-    print(request.POST)
     waiters = models.Waiter.objects.all()
     tables = models.Table.objects.filter(fill=0)
+    order = None
+
+    try:
+        table = models.Table.objects.get(id=table_id)
+        try:
+            order = models.Order.objects.get(id=table.cur_ord)
+        except models.Order.DoesNotExist:
+            pass
+    except models.Table.DoesNotExist:
+        return reverse(redirect('table'))
 
     if request.method == 'POST' and 'data' in request.POST:
         data = json.loads(request.POST['data'])
         if 'email' in data and 'phone' in data and 'username' in data:
-            pass
-        else:
-            pass
-            # total = 0
-            # for item in :
-            #     item_name = item['itemName']
-            #     item_qnty = item['itemQuantity']
-            #     item_price = item['itemPrice']
-            #     total += (item_qnty * item_price)
-
+            try:
+                customer = models.Customer.objects.get(phone=data['phone'])
+            except models.Customer.DoesNotExist:
+                try:
+                    customer = models.Customer.objects.get(email=data['email'])
+                except models.Customer.DoesNotExist:
+                    customer = models.Customer(name=data['username'],
+                                               email=data['email'],
+                                               phone=data['phone'],)
+                    customer.save()
+            try:
+                waiter = models.Waiter.objects.get(id=data['waiter'])
+            except models.Waiter.DoesNotExist:
+                return redirect(reverse('table'))
+            order = models.Order(customer=customer,
+                                 table_no=table,
+                                 peoples=int(data['no_of_customer']),
+                                 waiter=waiter)
+            order.save()
+            table.fill = int(data['no_of_customer'])
+            table.cur_ord = order.id
+            table.save()
+            return HttpResponse("Success", status=200)
+        elif order != None:
+            total = 0
+            for item in data:
+                try:
+                    qty = item['itemQuantity']
+                    item = models.Product.objects.get(name=item['itemName'])
+                    print(item)
+                except models.Product.DoesNotExist:
+                    return HttpResponse("One item not found!", status=404)
+                order_item = models.OrderItems(order=order,
+                                               product=item,
+                                               price=item.price,
+                                               quantity=qty)
+                order_item.save()
+                total += order_item.price*order_item.quantity
+            subject, from_email, to = 'hello', 'subhobasak22@gmail.com', 'subhobasak51@gmail.com'
+            text_content = 'This is an important message.'
+            html_content = '''
+                <div style="box-shadow: 2px 2px 4px 2px #aaa; border-radius: 5px; display: block;
+                            width: 90%; margin: auto;">
+                    <img src="https://www.akswaltham.net/files/images/background/banner-1.jpg" style="width: 100%; height: 6rem; object-fit: none;" />
+                    <div style="width: 95%; margin: auto;">
+                        <table style="border: 1px solid gray; width: 100%;">
+                            <tr><th>Item</th><th>Quantity</th><th>Price</th></tr>
+                            <tr><td>Pizza</td><td>3</td><td>200</td></tr>
+                            <tr><td>Pizza</td><td>3</td><td>200</td></tr>
+                            <tr><td>Pizza</td><td>3</td><td>200</td></tr>
+                            <tr><td>Pizza</td><td>3</td><td>200</td></tr>
+                        </table>
+                    </div>
+                </div>
+            '''
+            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
+            return HttpResponse("Success", status=200)
     if order_id > 0:
         try:
             order = models.Order.objects.get(id=order_id)
         except models.Order.DoesNotExist:
             return redirect(reverse('table'))
-    else:
-        try:
-            table = models.Table.objects.get(id=table_id)
-            order = models.Order(table_no=table)
-            order.save()
-        except models.Table.DoesNotExist:
-            return reverse(redirect('table'))
+
+    order_items = None
+    if order != None:
+        order_items = order.get_order_items()
+        print(order_items)
 
     return render(request, 'order.html',
-                  {'waiters': waiters, 'tables': tables, 'table_no': table_id})
+                  {'waiters': waiters, 'tables': tables, 'cur_table': table, 'order': order,
+                   'order_items': order_items})
 
 
 @login_required
@@ -197,11 +255,13 @@ def table_view(request):
         if 'new_order' in request.POST:
             return redirect('/order/'+str(request.POST['table_id'])+'/0/')
         elif 'edit' in request.POST and 'order_id' in request.POST:
+
             return redirect('/order/'+str(request.POST['table_id'])+'/'+str(request.POST['order_id'])+'/')
         elif 'complete' in request.POST and 'order_id' in request.POST:
             try:
                 table = models.Table.objects.get(id=request.POST['table_id'])
                 table.fill = 0
+                table.cur_ord = 0
                 table.save()
             except models.Table.DoesNotExist:
                 pass
@@ -266,6 +326,11 @@ def usage_freq_view(request, o, t):
         else:
             values[v] = 1
     return JsonResponse(values)
+
+
+@login_required
+def analysis_view(request):
+    return render(request, 'analysis.html')
 
 
 def testView(request):

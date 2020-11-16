@@ -19,11 +19,14 @@ payment_method = [
     ("2", "UPI")
 ]
 
+# 9143081984
+
 
 class Table(models.Model):
     table_no = models.IntegerField(verbose_name='Table number', unique=True, default=0)
     seat = models.IntegerField(verbose_name='Number of seats', default=4)
     fill = models.IntegerField(verbose_name='Fill', default=0)
+    cur_ord = models.IntegerField(default=0)
 
     class Meta:
         ordering = ['table_no',]
@@ -36,6 +39,12 @@ class Table(models.Model):
         if self.fill > 0:
             return False
         return True
+
+    def get_current_order(self):
+        try:
+            return Order.objects.get(id=self.cur_ord)
+        except Order.DoesNotExist:
+            return None
 
 
 class Waiter(models.Model):

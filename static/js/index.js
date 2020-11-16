@@ -28,6 +28,15 @@ const getUser = () => {
   };
 //   console.log(details);
    API.post(window.location.pathname.slice(1,), details)
+   userDetails[0].readOnly = true
+   userDetails[1].readOnly = true
+   userDetails[2].readOnly = true
+   let x = document.getElementsByClassName("btn-save")[0]
+   x.classList.remove('btn-primary')
+   x.classList.add('btn-secondary')
+   x.classList.remove('btn-save')
+   x.classList.add('w-100')
+   x.removeEventListener('click', getUser)
 };
 
 // ADD to cart
@@ -128,7 +137,7 @@ const getMenu = async (type) => {
   }
   add[add.length - 1].addEventListener("click", () => {
     // console.log(item);
-    API.post("test", item); //test url for menu
+    API.post(window.location.pathname.slice(1,), item); //test url for menu
     // post("billing", item);
   });
 };
