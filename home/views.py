@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.utils import timezone
+from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from . import models
@@ -212,21 +213,14 @@ def order_view(request, table_id, order_id):
                 total += order_item.price*order_item.quantity
             subject, from_email, to = 'hello', 'subhobasak22@gmail.com', 'subhobasak51@gmail.com'
             text_content = 'This is an important message.'
-            html_content = '''
-                <div style="box-shadow: 2px 2px 4px 2px #aaa; border-radius: 5px; display: block;
-                            width: 90%; margin: auto;">
-                    <img src="https://www.akswaltham.net/files/images/background/banner-1.jpg" style="width: 100%; height: 6rem; object-fit: none;" />
-                    <div style="width: 95%; margin: auto;">
-                        <table style="border: 1px solid gray; width: 100%;">
-                            <tr><th>Item</th><th>Quantity</th><th>Price</th></tr>
-                            <tr><td>Pizza</td><td>3</td><td>200</td></tr>
-                            <tr><td>Pizza</td><td>3</td><td>200</td></tr>
-                            <tr><td>Pizza</td><td>3</td><td>200</td></tr>
-                            <tr><td>Pizza</td><td>3</td><td>200</td></tr>
-                        </table>
-                    </div>
-                </div>
-            '''
+            html_content = render_to_string('invoice.html',
+                                            {'name': order.customer.name,
+                                             'email': order.customer.email,
+                                             'phone': order.customer.phone,
+                                             'date_time': order.date_time,
+                                             'items': order.get_order_items(),
+                                             'sub_total': total,
+                                             'total_price': total*1.18})
             msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
             msg.attach_alternative(html_content, "text/html")
             msg.send()
@@ -237,14 +231,8 @@ def order_view(request, table_id, order_id):
         except models.Order.DoesNotExist:
             return redirect(reverse('table'))
 
-    order_items = None
-    if order != None:
-        order_items = order.get_order_items()
-        print(order_items)
-
     return render(request, 'order.html',
-                  {'waiters': waiters, 'tables': tables, 'cur_table': table, 'order': order,
-                   'order_items': order_items})
+                  {'waiters': waiters, 'tables': tables, 'cur_table': table, 'order': order})
 
 
 @login_required
@@ -267,6 +255,20 @@ def table_view(request):
                 pass
             return redirect(reverse('table'))
     return render(request, 'table.html', {'tables': tables})
+
+
+class CartItems(ListAPIView):
+    def get_queryset(self):
+        try:
+            table = models.Table.objects.get(id=self.kwargs['table_id'])
+            try:
+                order = models.Order.objects.get(id=table.cur_ord)
+            except models.Order.DoesNotExist:
+                return HttpResponse("Not Found", status=404)
+        except models.Table.DoesNotExist:
+            return HttpResponse("Not Found", status=404)
+        return order.get_order_items()
+    serializer_class = serializers.OrderItemsSerializer
 
 
 def usage_freq_view(request, o, t):

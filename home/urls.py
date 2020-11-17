@@ -15,6 +15,9 @@ urlpatterns = [
     path('test', views.testView, name='test'),  # testing url for post
     path('analysis/', views.analysis_view, name='analysis'),
 
+    # cart api
+    path('cart/<int:table_id>/', views.CartItems.as_view()),
+
     # promo code details api url
     path('promo_code/<str:code>/', views.PromoCodeView.as_view()),
 

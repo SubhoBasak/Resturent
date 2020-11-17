@@ -105,6 +105,10 @@ class OrderItems(models.Model):
     def __str__(self):
         return self.product.name
 
+    @property
+    def total_price(self):
+        return self.price*self.quantity
+
 
 class PromoCode(models.Model):
     code = models.CharField(max_length=8, default='')

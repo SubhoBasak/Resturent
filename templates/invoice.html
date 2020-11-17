@@ -1,0 +1,107 @@
+<body style="box-sizing: border-box; ">
+	<div style="width: 100%; text-align: center;">
+		<h1 style="text-align: center; letter-spacing: 5px; margin-bottom: 10px;">ABCD</h1>
+		<h4 style="font-size: 15px; padding: 0px; margin: 0px;">College More, Burdwan</h4>
+		<h4 style="font-size: 15px; padding: 0px; margin-top: 0px;">Tel: +910000000000</h4>
+		<!-- TABLE 1 -->
+		<table class="center" style=" margin-left: auto; margin-right: auto; margin-bottom: 20px;">
+			<tr>
+				<th
+				style="padding-right: 70px; padding-bottom: 20px; font-size: 20px; letter-spacing: 2px;">
+				</th>
+				<th
+					style="padding-right: 70px; padding-bottom: 20px; font-size: 20px; letter-spacing: 2px;">
+					</th>
+				<th
+					style="padding-right: 20px; padding-bottom: 20px; font-size: 20px; letter-spacing: 2px;">
+					</th>
+				<th
+					style="padding-right: 70px; padding-bottom: 20px; font-size: 20px; letter-spacing: 2px;">
+					</th>
+			</tr>
+			<!-- <tr>
+				<td style="padding-left: 20px; font-weight: 300; font-size: 18px;">Waiter Name</td>
+				<td style="padding-left: 20px; font-weight: 300; font-size: 18px;"></td>
+				<td style="padding-left: 50px; font-weight: 300; font-size: 18px;"></td>
+				<td style="padding-left: 20px; font-weight: 300; font-size: 18px;">Table No.</td>
+			</tr> -->
+			<tr>
+				<td style="padding-left: 10px; font-weight: bold; font-size: 12px;">Name</td>
+				<td style="padding-left: 10px; font-size: 12px;">{{name}}</td>
+			</tr>
+			<tr>
+				<td style="padding-left: 10px; font-weight: bold; font-size: 12px;">Phone</td>
+				<td style="padding-left: 10px; font-size: 12px;">{{phone}}</td>
+			</tr>
+			<tr>
+				<td style="padding-left: 10px; font-weight: bold; font-size: 12px;">Email</td>
+				<td style="padding-left: 10px; font-size: 12px;">{{email}}</td>
+			</tr>
+			<tr>
+				<td style="padding-left: 10px; font-weight: bold; font-size: 12px;">Date</td>
+				<td style="padding-left: 10px; font-size: 12px;">{{date_time}}</td>
+			</tr>
+		</table>
+
+
+
+
+		<!-- table 2 -->
+		<table class="center" style=" margin-left: auto; margin-right: auto;">
+			<tr>
+				<th
+				style="border-bottom: 2px dashed grey; padding-bottom: 20px; font-size: 20px; letter-spacing: 2px;">
+				Qty</th>
+				<th
+					style="padding-right: 70px;border-bottom: 2px dashed grey; padding-bottom: 20px; font-size: 20px; letter-spacing: 2px;">
+					Name</th>
+				<th
+					style="padding-right: 20px;border-bottom: 2px dashed grey; padding-bottom: 20px; font-size: 20px; letter-spacing: 2px;">
+					Price</th>
+				<th
+					style="padding-right: 70px;border-bottom: 2px dashed grey; padding-bottom: 20px; font-size: 20px; letter-spacing: 2px;">
+					Total Price</th>
+			</tr>
+            {% for item in items %}
+                <tr>
+                    <td style="padding-left: 20px; font-weight: 300; font-size: 18px;">{{item.quantity}} pcs</td>
+                    <td style="padding-left: 20px; font-weight: 300; font-size: 18px;">{{item.product.name}}</td>
+                    <td style="padding-left: 50px; font-weight: 300; font-size: 18px;">{{item.price}}</td>
+                    <td style="padding-left: 20px; font-weight: 300; font-size: 18px;">{{item.total_price}}</td>
+                </tr>
+            {% endfor %}
+			<tr>
+				<th style="border-bottom: 2px dashed grey;"></th>
+				<th style="border-bottom: 2px dashed grey;"></th>
+				<th style="border-bottom: 2px dashed grey;"></th>
+				<th style="border-bottom: 2px dashed grey;"></th>
+			</tr>
+			<tr>
+				<th style="border-bottom: 2px dashed grey;"></th>
+				<th style="border-bottom: 2px dashed grey;"></th>
+				<th style="border-bottom: 2px dashed grey;"></th>
+				<th style="border-bottom: 2px dashed grey;"></th>
+			</tr>
+			<tr>
+				<td style=" padding-left: 50px; font-weight: 300; font-size: 18px;"></td>
+				<td style=" padding-left: 50px; font-weight: 300; font-size: 18px;"></td>
+				<td style=" padding-left: 50px; font-weight: 300; font-size: 18px;">SUB TOTAL</td>
+				<td style=" padding-left: 20px; font-weight: 300; font-size: 20px;">{{sub_total}}</td>
+			</tr>
+			<tr>
+				<td style=" padding-left: 50px; font-weight: 300; font-size: 18px;"></td>
+				<td style=" padding-left: 50px; font-weight: 300; font-size: 18px;"></td>
+				<td style=" padding-left: 50px; font-weight: 300; font-size: 18px;">GST</td>
+				<td style=" padding-left: 20px; font-weight: 300; font-size: 20px;">18%</td>
+			</tr>
+			<tr>
+				<td style=" padding-left: 50px; font-weight: 300; font-size: 18px;"></td>
+				<td style=" padding-left: 50px; font-weight: 300; font-size: 18px;"></td>
+				<td style=" padding-left: 50px; font-weight: 800; font-size: 25px; line-height: 80px;">TOTAL</td>
+				<td style=" padding-left: 20px; font-weight: 800; font-size: 25px; line-height: 80px;">{{total_price}}</td>
+			</tr>
+		</table>
+		<h3 style="padding-top: 20px; font-size: 24px; margin: 0px; letter-spacing: 2px; color: indigo;">Thank You!!!</h3>
+		<h3 style=" font-size: 25px; padding: 0px;margin: 0px; letter-spacing: 2px;">ABCD RESTAURANT</h3>
+	</div>
+</body>

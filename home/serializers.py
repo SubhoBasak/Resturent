@@ -19,3 +19,18 @@ class PromoCodeSerializer(serializers.ModelSerializer):
         model = models.PromoCode
         fields = ['code', 'discount']
 
+
+class OrderItemsSerializer(serializers.ModelSerializer):
+    def get_name(self, obj):
+        return obj.product.name
+
+    def get_total_price(self, obj):
+        return obj.price*obj.quantity
+
+    name = serializers.SerializerMethodField('get_name')
+    total_price = serializers.SerializerMethodField('get_total_price')
+
+    class Meta:
+        model = models.OrderItems
+        fields = ['name', 'price', 'quantity', 'total_price']
+
