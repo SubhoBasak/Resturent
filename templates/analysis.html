@@ -1,7 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +9,7 @@
 <!--    <link href="../Fonts/Merriweather.css" rel="stylesheet">-->
     <link rel="stylesheet" href="{% static 'css/tailwind.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/graph.css' %}">
+    <script src="{% static 'js/Chart.min.js' %}"></script>
 </head>
 
 <body>
@@ -55,7 +55,7 @@
                         </div>
                 </div>
                 <button class="btn invisible" style="float: right;margin-right:15px ;" id="backButton">Back -></button>
-                <div class="chart" id="chartContainer1" style="height: 300px; width: 100%;"></div>
+                <canvas class="chart" id="profit_id"></canvas>
             </section>
         </div>
         <div class="Number-Of-Peoples">
@@ -71,7 +71,7 @@
                             </select>
                         </div>
                 </div>
-                <div class="chart" style="height: 300px; width: 100%;"></div>
+                <canvas class="chart" id="peoples_id"></canvas>
             </section>
         </div>
         <div class="Top-Dishes">
@@ -87,7 +87,7 @@
                             </select>
                         </div>
                 </div>
-                <div class="chart" style="height: 300px; width: 100%;"></div>
+                <canvas class="chart" id="dishes_id"></canvas>
             </section>
         </div>
         <div class="Table-Usage">
@@ -103,7 +103,23 @@
                             </select>
                         </div>
                 </div>
-                <div class="chart" style="height: 300px; width: 100%;"></div>
+                <canvas class="chart" id="tables_id"></canvas>
+            </section>
+        </div>
+        <div class="Table-Usage">
+            <section class="my-5 datashow">
+                <div class="py-5 text-header px-3 py-3 pt-md-5 pb-md-4 mx-auto">
+                    <h1 class="display-4">Table Usage</h2>
+                        <div class="ml-auto">
+                            <select name="table-id" class="form-control">
+                                <option>Daily</option>
+                                <option>Weekly</option>
+                                <option>Monthly</option>
+                                <option>Yearly</option>
+                            </select>
+                        </div>
+                </div>
+                <canvas class="chart" id="waiters_id"></canvas>
             </section>
         </div>
     </div>
@@ -115,7 +131,7 @@
     <script type="text/javascript" src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
 
-    <script type="text/javascript" src="{% static 'js/graph.js' %}"></script>
+    <script type="module" src="{% static 'js/graph.js' %}"></script>
 </body>
 
 </html>

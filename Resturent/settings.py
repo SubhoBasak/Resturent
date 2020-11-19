@@ -80,22 +80,22 @@ WSGI_APPLICATION = 'Resturent.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'resturent',
-    #     'USER': 'subhobasak',
-    #     'PASSWORD': 'raspberry',
-    #     'HOST': 'localhost',
-    #     'PORT': 3306,
-    # }
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'resturant',
-        'USER': 'root',
-        'PASSWORD': 'ashis@2000',
+        'NAME': 'resturent',
+        'USER': 'subhobasak',
+        'PASSWORD': 'raspberry',
         'HOST': 'localhost',
         'PORT': 3306,
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'resturant',
+    #     'USER': 'root',
+    #     'PASSWORD': 'ashis@2000',
+    #     'HOST': 'localhost',
+    #     'PORT': 3306,
+    # }
 }
 
 

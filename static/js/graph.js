@@ -1,116 +1,59 @@
-// TOPTables
-window.onload = function () {
+import API from "./API/Api.js";
 
-    var totalVisitors = 883000;
-    var visitorsData = {
-        "New vs Left Side Table": [{
-            click: visitorsChartDrilldownHandler,
-            cursor: "pointer",
-            explodeOnClick: false,
-            innerRadius: "75%",
-            legendMarkerType: "square",
-            name: "Right vs Left Side Table",
-            radius: "100%",
-            showInLegend: true,
-            startAngle: 90,
-            type: "doughnut",
-            dataPoints: [
-                { y: 519960, name: "Right Side Table", color: "#E7823A" },
-                { y: 363040, name: "Left Side Table", color: "#546BC1" }
-            ]
-        }],
-        "Right Side Table": [{
-            color: "#E7823A",
-            name: "Right Side Table",
-            type: "column",
-            xValueFormatString: "MMM YYYY",
-            dataPoints: [
-                { x: new Date("1 Jan 2020"), y: 33000 },
-                { x: new Date("1 Feb 2020"), y: 35960 },
-                { x: new Date("1 Mar 2020"), y: 42160 },
-                { x: new Date("1 Apr 2020"), y: 42240 },
-                { x: new Date("1 May 2020"), y: 43200 },
-                { x: new Date("1 Jun 2020"), y: 40600 },
-                { x: new Date("1 Jul 2020"), y: 42560 },
-                { x: new Date("1 Aug 2020"), y: 44280 },
-                { x: new Date("1 Sep 2020"), y: 44800 },
-                { x: new Date("1 Oct 2020"), y: 48720 },
-                { x: new Date("1 Nov 2020"), y: 50840 },
-                { x: new Date("1 Dec 2020"), y: 51600 }
-            ]
-        }],
-        "Left Side Table": [{
-            color: "#546BC1",
-            name: "Left Side Table",
-            type: "column",
-            xValueFormatString: "MMM YYYY",
-            dataPoints: [
-                { x: new Date("1 Jan 2020"), y: 22000 },
-                { x: new Date("1 Feb 2020"), y: 26040 },
-                { x: new Date("1 Mar 2020"), y: 25840 },
-                { x: new Date("1 Apr 2020"), y: 23760 },
-                { x: new Date("1 May 2020"), y: 28800 },
-                { x: new Date("1 Jun 2020"), y: 29400 },
-                { x: new Date("1 Jul 2020"), y: 33440 },
-                { x: new Date("1 Aug 2020"), y: 37720 },
-                { x: new Date("1 Sep 2020"), y: 35200 },
-                { x: new Date("1 Oct 2020"), y: 35280 },
-                { x: new Date("1 Nov 2020"), y: 31160 },
-                { x: new Date("1 Dec 2020"), y: 34400 }
-            ]
-        }]
-    };
-    
-    var newVSReturningVisitorsOptions = {
-        animationEnabled: true,
-        theme: "light2",
-        title: {
-            text: "New VS Left Side Table"
+function create_histogram(this_canvas, labels_data, values_data){
+    let plotBanner1 = new Chart(this_canvas, {
+        type: 'bar',
+        data:{
+            labels: labels_data,
+            datasets: [{
+                label: 'values',
+                data: values_data,
+                backgroundColor: ['#f79e94', '#f7cb94', '#f7f194', '#a6f794', '#94f0f7', '#94a0f7', '#ea94f7']
+            }]
         },
-        legend: {
-            fontFamily: "calibri",
-            fontSize: 14,
-            itemTextFormatter: function (e) {
-                return e.dataPoint.name + ": " + Math.round(e.dataPoint.y / totalVisitors * 100) + "%";  
+        options:{
+            title:{
+                display: true,
+                text: 'Random value bar plot',
+                fontSize: 13,
+                fontColor: 'orange',
+            },
+            legend:{
+                position: 'bottom'
+            },
+            tooltips:{
+                enabled: true,
             }
         },
-        data: []
-    };
-    
-    var visitorsDrilldownedChartOptions = {
-        animationEnabled: true,
-        theme: "light2",
-        axisX: {
-            labelFontColor: "#717171",
-            lineColor: "#a2a2a2",
-            tickColor: "#a2a2a2"
-        },
-        axisY: {
-            gridThickness: 0,
-            includeZero: false,
-            labelFontColor: "#717171",
-            lineColor: "#a2a2a2",
-            tickColor: "#a2a2a2",
-            lineThickness: 1
-        },
-        data: []
-    };
-    
-    newVSReturningVisitorsOptions.data = visitorsData["New vs Left Side Table"];
-    $("#chartContainer1").CanvasJSChart(newVSReturningVisitorsOptions);
-    
-    function visitorsChartDrilldownHandler(e) {
-        e.chart.options = visitorsDrilldownedChartOptions;
-        e.chart.options.data = visitorsData[e.dataPoint.name];
-        e.chart.options.title = { text: e.dataPoint.name }
-        e.chart.render();
-        $("#backButton").toggleClass("invisible");
-    }
-    
-    $("#backButton").click(function() { 
-        $(this).toggleClass("invisible");
-        newVSReturningVisitorsOptions.data = visitorsData["New vs Left Side Table"];
-        $("#chartContainer1").CanvasJSChart(newVSReturningVisitorsOptions);
-    });
-    
-    }
+    })
+}
+
+// dishistogram
+let dish_data = API.get('freq_data/2/3/')
+
+dish_data.then(function(result) {
+  let labels_data = Object.keys(result).reverse()
+  let values_data = Object.values(result).reverse()
+  let CurCanvas = document.getElementById('dishes_id').getContext('2d')
+  create_histogram(CurCanvas, labels_data, values_data)
+})
+
+// waiter histogram
+let waiter_data = API.get('freq_data/1/3/')
+
+waiter_data.then(function(result) {
+  let labels_data = Object.keys(result).reverse()
+  let values_data = Object.values(result).reverse()
+  let CurCanvas = document.getElementById('waiters_id').getContext('2d')
+  create_histogram(CurCanvas, labels_data, values_data)
+})
+
+// table histogram
+let table_data = API.get('freq_data/0/3/')
+
+table_data.then(function(result) {
+  let labels_data = Object.keys(result).reverse()
+  let values_data = Object.values(result).reverse()
+  let CurCanvas = document.getElementById('tables_id').getContext('2d')
+  create_histogram(CurCanvas, labels_data, values_data)
+})

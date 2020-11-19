@@ -22,10 +22,16 @@ class PromoCodeSerializer(serializers.ModelSerializer):
 
 class OrderItemsSerializer(serializers.ModelSerializer):
     def get_name(self, obj):
-        return obj.product.name
+        try:
+            return obj.product.name
+        except Exception as e:
+            pass
 
     def get_total_price(self, obj):
-        return obj.price*obj.quantity
+        try:
+            return obj.price*obj.quantity
+        except Exception as e:
+            pass
 
     name = serializers.SerializerMethodField('get_name')
     total_price = serializers.SerializerMethodField('get_total_price')
@@ -33,4 +39,3 @@ class OrderItemsSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.OrderItems
         fields = ['name', 'price', 'quantity', 'total_price']
-

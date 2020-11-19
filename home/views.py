@@ -202,7 +202,6 @@ def order_view(request, table_id, order_id):
                 try:
                     qty = item['itemQuantity']
                     item = models.Product.objects.get(name=item['itemName'])
-                    print(item)
                 except models.Product.DoesNotExist:
                     return HttpResponse("One item not found!", status=404)
                 order_item = models.OrderItems(order=order,
