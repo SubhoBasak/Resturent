@@ -518,3 +518,10 @@ small
     outline: #000;
 
 }
+.cancel{
+    border: none;
+    background: none;
+    color: #ff523b;
+    font-size: large;
+    margin-left: 5px;
+}

@@ -42,23 +42,32 @@
                 <div class="from-group pad">
                   <i class="fa fa-envelope-o fa-fw pr-2"></i>
                   <label for="exampleInputEmail1">Email address</label>
-                  <input type="email" class="form-control" placeholder="Email"
-                    {% if order.customer.email %}value="{{order.customer.email}}" readonly{% endif %}
-                  >
+                  <div class="input-group">
+                    <input type="email" class="form-control user" placeholder="Email"
+                      {% if order.customer.email %}value="{{order.customer.email}}" readonly{% endif %}>
+                    <div class="input-group-append">
+                      <button class="btn btn-primary" type="button"  id="email">Find User</button>
+                    </div>
+                  </div>
+
                 </div>
                 <div class="form-group pad">
                   <i class="fa fa-mobile fa-lg pr-2"></i>
                   <label for="exampleInputPhone1">Phone Number</label>
-                  <input type="number" min="1" max="9" class="form-control" placeholder="Phone"
-                    {% if order.customer.phone %}value="{{order.customer.phone}}" readonly{% endif %}
-                  >
+                  <div class="input-group">
+                    <input type="number" min="1" max="9" class="form-control user" placeholder="Phone" 
+                    {% if order.customer.phone %}value="{{order.customer.phone}}" readonly{% endif %}>
+                    <div class="input-group-append">
+                      <button class="btn btn-primary" type="button" id="ph_no">Find User</button>
+                    </div>
+                  </div>
+                  
                 </div>
                 <div class="form-group pad">
                   <i class="fa fa-user-circle pr-2"></i>
                   <label for="exampleInputUsername1">Username</label>
-                  <input type="text" class="form-control" placeholder="Name"
-                    {% if order.customer.name %}value="{{order.customer.name}}" readonly{% endif %}
-                  >
+                  <input type="text" class="form-control user" placeholder="Name"
+                    {% if order.customer.name %}value="{{order.customer.name}}" readonly{% endif %}>
                 </div>
               </div>
               <div class="col-lg-6">
@@ -66,16 +75,15 @@
                 <div class="form-group pad">
                   <i class="fa fa-thumb-tack pr-2"></i>
                   <label for="exampleInputUsername1">Table No</label>
-                  <select class="form-control" name="table_no" >
+                  <select class="form-control" name="table_no">
                     {% if cur_table %}
-                      <option value="{{cur_table.id}}" selected>Table no {{cur_table.table_no}}</option>
+                    <option value="{{cur_table.id}}" selected>Table no {{cur_table.table_no}}</option>
                     {% else %}
-                      {% for table in tables %}
-                        <option value="{{table.id}}"
-                                {% if table.id == table_no %}selected{% endif %}>
-                          Table no {{table.table_no}}
-                        </option>
-                      {% endfor %}
+                    {% for table in tables %}
+                    <option value="{{table.id}}" {% if table.id == table_no %}selected{% endif %}>
+                      Table no {{table.table_no}}
+                    </option>
+                    {% endfor %}
                     {% endif %}
                   </select>
                 </div>
@@ -83,12 +91,7 @@
                   <i class="fa fa-users pr-2"></i>
                   <label for="exampleInputUsername1">Numbers Of Customer</label>
                   <input type="number" max="30" min="1" class="form-control" placeholder="Numbers Of Customer"
-                    {% if order.peoples %}
-                         value="{{order.peoples}}"
-                    {% else %}
-                         value="1"
-                    {% endif %}
-                  >
+                    {% if order.peoples %} value="{{order.peoples}}" {% else %} value="1" {% endif %}>
                 </div>
                 <!--TABLE & PEOPLE-->
                 <div class="form-group pad">
@@ -96,7 +99,7 @@
                   <label for="exampleInputUsername1">Waiter Name</label>
                   <select class="form-control" name="Waiter">
                     {% for waiter in waiters %}
-                      <option value="{{waiter.id}}">{{waiter.name}}</option>
+                    <option value="{{waiter.id}}">{{waiter.name}}</option>
                     {% endfor %}
                   </select>
                 </div>
@@ -104,9 +107,9 @@
             </div>
           </div>
           {% if order.customer %}
-            <p class="btn btn-secondary w-100">Save</p>
+          <p class="btn btn-secondary w-100">Save</p>
           {% else %}
-            <button type="button" class="btn btn-primary btn-save">Save</button>
+          <button type="button" class="btn btn-primary btn-save">Save</button>
           {% endif %}
         </form>
       </div>
@@ -154,8 +157,8 @@
 
           <div class="dropdown-border">
             <div class="dropdown">
-              <button class="feat-btn bton" data-toggle="collapse" href="#Meal" role="button"
-                aria-expanded="false" aria-controls="collapseExample">
+              <button class="feat-btn bton" data-toggle="collapse" href="#Meal" role="button" aria-expanded="false"
+                aria-controls="collapseExample">
                 Meal
                 <span><i class="fa fa-caret-down fa-fw I"></i></span>
                 <span><i class="fa fa-caret-down fa-fw I1"></i></span>
@@ -175,8 +178,8 @@
           </div>
           <div class="dropdown-border">
             <div class="dropdown">
-              <button class="feat-btn bton" data-toggle="collapse" href="#snacks" role="button"
-                aria-expanded="false" aria-controls="collapseExample">
+              <button class="feat-btn bton" data-toggle="collapse" href="#snacks" role="button" aria-expanded="false"
+                aria-controls="collapseExample">
                 Snacks
                 <span><i class="fa fa-caret-down fa-fw I"></i></span>
                 <span><i class="fa fa-caret-down fa-fw I1"></i></span>
@@ -196,8 +199,8 @@
           </div>
           <div class="dropdown-border">
             <div class="dropdown">
-              <button class="feat-btn bton" data-toggle="collapse" href="#dinner" role="button"
-                aria-expanded="false" aria-controls="collapseExample">
+              <button class="feat-btn bton" data-toggle="collapse" href="#dinner" role="button" aria-expanded="false"
+                aria-controls="collapseExample">
                 Dinner
                 <span><i class="fa fa-caret-down fa-fw I"></i></span>
                 <span><i class="fa fa-caret-down fa-fw I1"></i></span>
@@ -292,7 +295,8 @@
                 <h6 class="my-0">Promo Code</h6>
                 <small>OFFER ONLY</small>
               </div>
-              <span class="text-success"><input class="dis" type="text"></span>
+              <span class="text-success" id="promo-span">  <button type="button" class="btn btn-outline-success disButt" data-toggle="modal" data-target="#promo">Apply</button>
+              </span>
             </li>
             <li class="list-group-item d-flex justify-content-between">
               <span>Total (INR)<i class="fa fa-cart-arrow-down fa-fw fa-lg"></i></span>
@@ -310,7 +314,31 @@
   </div>
 
 
-
+<!--modal-->
+  <div class="modal fade" id="promo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group ">
+              <label for="recipient-name" class="col-form-label">Promo Code:</label>
+              <input type="text" class="form-control" id="code" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="submitPromo" data-dismiss="modal">Apply Code</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!--JAVA SCRIPT-->
 

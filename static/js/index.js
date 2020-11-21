@@ -16,6 +16,7 @@ $(".feat-btn4").click(function () {
   $(".dinner-show").toggleClass("show3");
 });
 
+//Get User Details
 const getUser = () => {
   let userDetails = document.getElementsByClassName("form-control");
   let details = {
@@ -53,7 +54,8 @@ const getItem = (e) => {
   addCartItem(name, price, item_img);
 };
 
-const updateTotal = () => {
+//Add to Total
+const updateTotal = (discount) => {
   let total = 0.0;
   item = [];
   let cart_list = document.getElementById("cart");
@@ -64,7 +66,7 @@ const updateTotal = () => {
       cart_list.children[i].children[0].children[0].children[1].children[0]
         .innerText;
     let qty = cart_list.children[i].children[1].children[0].value;
-    let price = cart_list.children[i].children[2].innerText.split("$")[0];
+    let price = cart_list.children[i].children[2].innerText.split("₹")[1];
     let item_price = 0.0;
     qty = parseFloat(qty);
     price = parseFloat(price);
@@ -77,7 +79,10 @@ const updateTotal = () => {
       itemPrice: price,
     });
   }
+  let discounted_total = total * discount;
+  total = total - total * discount;
   document.getElementsByTagName("strong")[0].innerText = "₹" + total;
+  return discounted_total;
 };
 
 const addCartItem = (name, price, item_img) => {
@@ -116,6 +121,7 @@ const addTotalItem = (name, qty, price) => {
   $("#total").prepend(list);
 };
 
+//Get Menu List
 const getMenu = async (type) => {
   let menu_type = ["breakfast", "meal", "snacks", "dinner"];
   let menu_list_body = document.getElementsByClassName("menu-list");
@@ -136,6 +142,8 @@ const getMenu = async (type) => {
   for (let i = 0; i < add.length - 1; i++) {
     add[i].addEventListener("click", (e) => getItem(e));
   }
+
+  // console.log(document.getElementById("code").value);
   add[add.length - 1].addEventListener("click", () => {
     // console.log(window.location.pathname.slice(1));
     API.post(window.location.pathname.slice(1), item); //test url for menu
@@ -147,7 +155,7 @@ const addCard = (body, img, title, price) => {
   let card_HTML = `<div class="card1">
   <img src=${img} class="card-img-top">
   <div class="card-body">
-    <h5 class="title">${title}<span>${price}$</span></h5>
+    <h5 class="title">${title}<span>₹ ${price}</span></h5>
     <button class="btn btn-success">Add</button>
   </div>
 </div>`;
@@ -155,16 +163,74 @@ const addCard = (body, img, title, price) => {
   $(body).append(card_HTML);
 };
 
-// Button click Events
+//find user
+const findUser = async (e) => {
+  let data = e.target.parentNode.previousElementSibling.value;
+  let response = await API.get(
+    "customer_details_" + (e.target.id == "email" ? "email/" : "phone/") + data
+  );
+  let user = document.getElementsByClassName("user");
+  user[0].value = response.email;
+  user[1].value = response.phone;
+  user[2].value = response.name;
+};
+
+//promo code handler
+const handlePromoCode = async () => {
+  let response = await API.get(
+    "promo_code/" + document.getElementById("code").value
+  );
+
+  let disc_total = updateTotal(response.discount / 100);
+
+  let discount_button = document.getElementsByClassName("disButt")[0];
+
+  let promo_span = document.getElementById("promo-span");
+  promo_span.removeChild(discount_button);
+
+  let promo_html = document.createElement("span");
+  promo_html.setAttribute("class", "text-success");
+  promo_html.innerText = "- ₹ " + disc_total;
+
+  let remove_button = document.createElement("button");
+  remove_button.setAttribute("class", "cancel");
+  remove_button.innerText = " x";
+  remove_button.addEventListener("click", () => {
+    promo_span.removeChild(promo_html);
+    promo_span.removeChild(remove_button);
+    promo_span.appendChild(discount_button);
+  });
+
+  promo_span.appendChild(promo_html);
+  promo_span.appendChild(remove_button);
+};
+
+// Event Listener for menu change
 getMenu("veg_");
 let menu_buttons = document.getElementsByClassName("btn-outline-info");
 menu_buttons[0].addEventListener("click", () => getMenu("veg_"));
 menu_buttons[1].addEventListener("click", () => getMenu("non_veg_"));
 
+//Event Listener to save user detail
 let saveUser = document
   .getElementsByClassName("btn-save")[0]
   .addEventListener("click", getUser);
+
+//Event Listner to update total
 let cardTotal = document
 
   .getElementById("cartTotal")
-  .addEventListener("click", updateTotal);
+  .addEventListener("click", () => updateTotal(0));
+
+//Event Listner to search user
+let email = document
+  .getElementById("email")
+  .addEventListener("click", findUser);
+let ph_no = document
+  .getElementById("ph_no")
+  .addEventListener("click", findUser);
+
+//Event Listner for promo code
+let promo = document
+  .getElementById("submitPromo")
+  .addEventListener("click", handlePromoCode);
