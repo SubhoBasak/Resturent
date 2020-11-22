@@ -13,38 +13,6 @@ function getCookie(name) {
   return null;
 }
 
-// const get = (url) => {
-//   $.ajax({
-//     type: "GET",
-//     url: baseURL + url,
-//     contentType: "application/json",
-//     error: function () {
-//       console.log("ERR: Failed to load data from the server");
-//     },
-//     success: function (response) {
-//       return new Promise((resolve) => resolve(response));
-//     },
-//   });
-// };
-
-// const post = (url, data) => {
-//   console.log(data);
-//   $.ajax({
-//     type: "POST",
-//     url: baseURL + url,
-//     headers: { "X-CSRFToken": getCookie("csrftoken") },
-//     data: JSON.stringify(data),
-//     error: function () {
-//       console.log("ERR: Failed to load data from the server");
-//     },
-//     success: function (response) {
-//       return response;
-//     },
-//   });
-// };
-
-// export { get, post };
-
 export default class API {
   constructor(options) {
     this.baseUrl = options.baseUrl;
@@ -63,7 +31,7 @@ export default class API {
       let body, headers;
       if (method == "GET") {
         headers = header;
-        console.log(url);
+        // console.log(url);
       } else {
         header = { "X-CSRFToken": getCookie("csrftoken") };
         // console.log(getCookie("csrftoken"));

@@ -79,6 +79,9 @@ const updateTotal = (discount) => {
       itemPrice: price,
     });
   }
+  item.push({
+    promo: document.getElementById("code").value,
+  });
   let discounted_total = total * discount;
   total = total - total * discount;
   document.getElementsByTagName("strong")[0].innerText = "₹" + total;
@@ -143,12 +146,7 @@ const getMenu = async (type) => {
     add[i].addEventListener("click", (e) => getItem(e));
   }
 
-  // console.log(document.getElementById("code").value);
-  add[add.length - 1].addEventListener("click", () => {
-    // console.log(window.location.pathname.slice(1));
-    API.post(window.location.pathname.slice(1), item); //test url for menu
-    // post("billing", item);
-  });
+  // console.log();
 };
 
 const addCard = (body, img, title, price) => {
@@ -234,3 +232,11 @@ let ph_no = document
 let promo = document
   .getElementById("submitPromo")
   .addEventListener("click", handlePromoCode);
+
+//post the actual total
+let add = document.getElementsByClassName("btn-success");
+add[add.length - 1].addEventListener("click", () => {
+  // console.log(window.location.pathname.slice(1));
+  API.post(window.location.pathname.slice(1), item); //test url for menu
+  // post("billing", item);
+});
